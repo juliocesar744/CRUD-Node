@@ -1,0 +1,28 @@
+version: '3'
+networks:
+  argus:
+    name: argus
+services:
+  backend:
+    build: .
+    networks:
+      - argus 
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "3306:3306"
+    networks:
+      - argus 
+    environment:
+      MYSQL_ROOT_PASSWORD: prisma
+    volumes:
+      - mysql:/var/lib/mysql
+volumes:
+  mysql: ~
